@@ -38,17 +38,8 @@ func unique(zeroSums [][]int) [][]int {
 			}
 
 			uniqueMaps = append(uniqueMaps, newUniqueMap)
+			uniqueSums = append(uniqueSums, sumArr)
 		}
-	}
-
-	for _, uniqueMap := range uniqueMaps {
-		uniqueSum := []int{}
-
-		for uniqueNumber, _ := range uniqueMap {
-			uniqueSum = append(uniqueSum, uniqueNumber)
-		}
-
-		uniqueSums = append(uniqueSums, uniqueSum)
 	}
 
 	return uniqueSums

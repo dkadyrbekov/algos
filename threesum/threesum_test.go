@@ -53,6 +53,14 @@ func Test_threeSum(t *testing.T) {
 				{10, -1, -9},
 			},
 		},
+		{
+			name: "regular case",
+			arg:  []int{-1, 0, 1, 2, -1, -4},
+			want: [][]int{
+				{-1, 1, 0},
+				{-1, -1, 2},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
