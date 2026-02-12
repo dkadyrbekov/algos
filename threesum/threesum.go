@@ -1,56 +1,54 @@
 package threesum
 
+import (
+	"slices"
+)
+
 func threeSum(nums []int) [][]int {
+	var result [][]int
+	slices.Sort(nums)
 
-	result := [][]int{}
+	var lastNotNegativeIndex int
 
-	for i := 0; i < len(nums); i++ {
-		for j := i + 1; j < len(nums); j++ {
-			for k := j + 1; k < len(nums); k++ {
-				if nums[i]+nums[j]+nums[k] == 0 {
-					result = append(result, []int{nums[i], nums[j], nums[k]})
-				}
-			}
+	for i, val := range nums {
+		if val >= 0 {
+			lastNotNegativeIndex = i
+			break
 		}
 	}
 
-	return unique(result)
+	if lastNotNegativeIndex == 0 {
+		return result
+	}
+
+	result = append(result, search(nums[:lastNotNegativeIndex], nums)...)
+	result = append(result, search(nums[lastNotNegativeIndex:], nums)...)
+
+	return result
 }
 
-func unique(zeroSums [][]int) [][]int {
-	uniqueSums := [][]int{}
-	uniqueMaps := []map[int]bool{}
+func search(croppedArr, originalArr []int) [][]int {
+	var result [][]int
 
-	for _, sumArr := range zeroSums {
-		sumIsUnique := true
-
-		for _, uniqueMap := range uniqueMaps {
-			if mapIsIdentique(uniqueMap, sumArr) {
-				sumIsUnique = false
-				break
-			}
+	for i := 0; i < len(croppedArr); i++ {
+		if i > 0 && croppedArr[i] == croppedArr[i-1] {
+			continue
 		}
 
-		if sumIsUnique {
-			newUniqueMap := map[int]bool{}
-			for _, number := range sumArr {
-				newUniqueMap[number] = true
+		for j := i + 1; j < len(croppedArr); j++ {
+			if j > i+1 && croppedArr[j] == croppedArr[j-1] {
+				continue
 			}
 
-			uniqueMaps = append(uniqueMaps, newUniqueMap)
-			uniqueSums = append(uniqueSums, sumArr)
+			searchNumber := croppedArr[i] + croppedArr[j]
+
+			k, found := slices.BinarySearch(originalArr, -searchNumber)
+
+			if found {
+				result = append(result, []int{croppedArr[i], croppedArr[j], originalArr[k]})
+			}
 		}
 	}
 
-	return uniqueSums
-}
-
-func mapIsIdentique(mapArr map[int]bool, arr []int) bool {
-	for _, number := range arr {
-		if !mapArr[number] {
-			return false
-		}
-	}
-
-	return true
+	return result
 }
