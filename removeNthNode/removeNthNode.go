@@ -8,6 +8,9 @@ type ListNode struct {
 }
 
 func removeNthLastNode(head *ListNode, n int) *ListNode {
+	if head == nil {
+		return nil
+	}
 
 	var listLength int
 
@@ -17,6 +20,11 @@ func removeNthLastNode(head *ListNode, n int) *ListNode {
 
 	nthFromHead := listLength - n
 
+	// Некорретный ввод, ничего не удаляем
+	if nthFromHead < 0 {
+		return head
+	}
+
 	removeNode := head
 	beforRemoveNode := head
 	for i := 0; i < nthFromHead; i++ {
@@ -25,6 +33,10 @@ func removeNthLastNode(head *ListNode, n int) *ListNode {
 		if i != 0 {
 			beforRemoveNode = beforRemoveNode.Next
 		}
+	}
+
+	if removeNode == beforRemoveNode {
+		return head.Next
 	}
 
 	beforRemoveNode.Next = removeNode.Next
