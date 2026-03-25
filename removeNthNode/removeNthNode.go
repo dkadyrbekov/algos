@@ -12,34 +12,28 @@ func removeNthLastNode(head *ListNode, n int) *ListNode {
 		return nil
 	}
 
-	var listLength int
-
-	for h := head; h != nil; h = h.Next {
-		listLength++
-	}
-
-	nthFromHead := listLength - n
-
-	// Некорретный ввод, ничего не удаляем
-	if nthFromHead < 0 {
+	if n <= 0 {
 		return head
 	}
 
-	removeNode := head
-	beforRemoveNode := head
-	for i := 0; i < nthFromHead; i++ {
-		removeNode = removeNode.Next
+	prev := &ListNode{Next: head}
+	gap := 0
 
-		if i != 0 {
-			beforRemoveNode = beforRemoveNode.Next
+	ptr := head
+	for ptr != nil {
+		if gap >= n {
+			prev = prev.Next
 		}
+
+		ptr = ptr.Next
+		gap++
 	}
 
-	if removeNode == beforRemoveNode {
+	if prev.Next == head {
 		return head.Next
 	}
 
-	beforRemoveNode.Next = removeNode.Next
+	prev.Next = prev.Next.Next
 
 	return head
 }

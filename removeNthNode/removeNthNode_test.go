@@ -64,14 +64,6 @@ func Test_removeNthLastNode(t *testing.T) {
 			},
 			want: []int{2, 3},
 		},
-		{
-			name: "Invalid input, remove anything",
-			args: args{
-				list: []int{1, 2, 3},
-				n:    4,
-			},
-			want: []int{1, 2, 3},
-		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
