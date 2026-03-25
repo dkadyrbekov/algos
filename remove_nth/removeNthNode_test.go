@@ -1,4 +1,4 @@
-package removeNthNode
+package remove_nth
 
 import (
 	"fmt"

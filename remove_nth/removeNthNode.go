@@ -1,4 +1,4 @@
-package removeNthNode
+package remove_nth
 
 // Definition for a Linked List node
 
