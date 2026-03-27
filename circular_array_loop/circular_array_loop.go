@@ -2,43 +2,37 @@ package circular_array_loop
 
 func circularArrayLoop(nums []int) bool {
 
-	// Replace this placeholder return statement with your code
-	for i, _ := range nums {
-		var cycleIsPositive bool
+	for i := range nums {
+		isForward := nums[i] > 0
 
-		switch {
-		case nums[i] > 0:
-			cycleIsPositive = true
-		case nums[i] < 0:
-			cycleIsPositive = false
-		case nums[i] == 0:
-			panic("invalid 0 value in input slice")
-		}
-
-		visitedIndexes := make(map[int]bool)
-		currentIndex := i
+		fast, slow := i, i
 
 		for {
-			if cycleIsPositive && nums[currentIndex] < 0 {
+			if nums[fast]%len(nums) == 0 {
 				break
 			}
 
-			if !cycleIsPositive && nums[currentIndex] > 0 {
+			slow = (len(nums) + (slow+nums[slow])%len(nums)) % len(nums)
+
+			fast = (len(nums) + (fast+nums[fast])%len(nums)) % len(nums)
+			if (nums[fast] > 0) != isForward {
+				break
+			}
+			if nums[fast]%len(nums) == 0 {
 				break
 			}
 
-			if visitedIndexes[currentIndex] {
+			fast = (len(nums) + (fast+nums[fast])%len(nums)) % len(nums)
+			if (nums[fast] > 0) != isForward {
+				break
+			}
+			if nums[fast]%len(nums) == 0 {
+				break
+			}
+
+			if fast == slow {
 				return true
 			}
-			visitedIndexes[currentIndex] = true
-
-			nextIndex := (len(nums) + (currentIndex+nums[currentIndex])%len(nums)) % len(nums)
-
-			if currentIndex == nextIndex {
-				break
-			}
-
-			currentIndex = nextIndex
 		}
 
 	}
