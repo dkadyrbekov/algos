@@ -8,25 +8,15 @@ func circularArrayLoop(nums []int) bool {
 		fast, slow := i, i
 
 		for {
-			if nums[fast]%len(nums) == 0 {
+			slow = nextIndex(slow, nums[slow], len(nums))
+
+			fast = nextIndex(fast, nums[fast], len(nums))
+			if !validStep(nums[fast], isForward, len(nums)) {
 				break
 			}
 
-			slow = (len(nums) + (slow+nums[slow])%len(nums)) % len(nums)
-
-			fast = (len(nums) + (fast+nums[fast])%len(nums)) % len(nums)
-			if (nums[fast] > 0) != isForward {
-				break
-			}
-			if nums[fast]%len(nums) == 0 {
-				break
-			}
-
-			fast = (len(nums) + (fast+nums[fast])%len(nums)) % len(nums)
-			if (nums[fast] > 0) != isForward {
-				break
-			}
-			if nums[fast]%len(nums) == 0 {
+			fast = nextIndex(fast, nums[fast], len(nums))
+			if !validStep(nums[fast], isForward, len(nums)) {
 				break
 			}
 
@@ -38,4 +28,19 @@ func circularArrayLoop(nums []int) bool {
 	}
 
 	return false
+}
+
+func validStep(step int, isForward bool, lenArr int) bool {
+	if (step > 0) != isForward {
+		return false
+	}
+	if step%lenArr == 0 {
+		return false
+	}
+
+	return true
+}
+
+func nextIndex(currI, nextI, lenArr int) int {
+	return (lenArr + (currI+nextI)%lenArr) % lenArr
 }
