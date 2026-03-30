@@ -11,12 +11,12 @@ func circularArrayLoop(nums []int) bool {
 			slow = nextIndex(slow, nums[slow], len(nums))
 
 			fast = nextIndex(fast, nums[fast], len(nums))
-			if !validStep(nums[fast], isForward, len(nums)) {
+			if !isValidStep(nums[fast], isForward, len(nums)) {
 				break
 			}
 
 			fast = nextIndex(fast, nums[fast], len(nums))
-			if !validStep(nums[fast], isForward, len(nums)) {
+			if !isValidStep(nums[fast], isForward, len(nums)) {
 				break
 			}
 
@@ -30,7 +30,7 @@ func circularArrayLoop(nums []int) bool {
 	return false
 }
 
-func validStep(step int, isForward bool, lenArr int) bool {
+func isValidStep(step int, isForward bool, lenArr int) bool {
 	if (step > 0) != isForward {
 		return false
 	}
