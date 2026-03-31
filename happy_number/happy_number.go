@@ -5,19 +5,27 @@ func isHappy(num int) bool {
 		return false
 	}
 
-	passedNumbers := make(map[int]bool)
+	fast, slow := num, num
 
 	for {
-		if num == 1 {
+		if slow == 1 {
 			return true
 		}
+		slow = countNextNumber(slow)
 
-		if passedNumbers[num] {
+		if fast == 1 {
+			return true
+		}
+		fast = countNextNumber(fast)
+
+		if fast == 1 {
+			return true
+		}
+		fast = countNextNumber(fast)
+
+		if fast == slow {
 			return false
 		}
-		passedNumbers[num] = true
-
-		num = countNextNumber(num)
 	}
 }
 
