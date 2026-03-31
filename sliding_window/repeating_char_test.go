@@ -1,6 +1,8 @@
-package repeating_char
+package sliding_window
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_longestRepeatingCharacterReplacement(t *testing.T) {
 	tests := []struct {
@@ -32,6 +34,12 @@ func Test_longestRepeatingCharacterReplacement(t *testing.T) {
 			s:    "COOLLOOC",
 			k:    2,
 			want: 6,
+		},
+		{
+			name: "valid string",
+			s:    "AAACCCBB",
+			k:    3,
+			want: 5,
 		},
 	}
 	for _, tt := range tests {
