@@ -27,18 +27,46 @@ func (h *MinPairHeap) Pop() interface{} {
 func kSmallestPairs(list1 []int, list2 []int, k int) [][]int {
 	result := make([][]int, 0)
 
-	h := &MinPairHeap{}
-
-	for i := 0; i < len(list1); i++ {
-		for j := 0; j < len(list2); j++ {
-			heap.Push(h, pair{v1: list1[i], v2: list2[j]})
-		}
+	if len(list1) == 0 || len(list2) == 0 {
+		return result
 	}
 
-	for i := 0; i < k && h.Len() > 0; i++ {
+	h := &MinPairHeap{}
+
+	for i := 0; i < minInt(len(list1), k); i++ {
+		heap.Push(h, pair{v1: list1[i], v2: list2[0]})
+	}
+
+	i, j, jk := 0, 0, 1
+	for h.Len() > 0 {
 		p := heap.Pop(h).(pair)
 		result = append(result, []int{p.v1, p.v2})
+
+		if len(result) == k {
+			break
+		}
+
+		j++
+		if j == len(list2) {
+			j = jk
+			jk++
+			i++
+		}
+
+		if i > len(list1)-1 || j > len(list2)-1 {
+			continue
+		}
+
+		heap.Push(h, pair{v1: list1[i], v2: list2[j]})
 	}
 
 	return result
+}
+
+func minInt(x, y int) int {
+	if x < y {
+		return x
+	}
+
+	return y
 }
