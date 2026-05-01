@@ -1,10 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
+func appendLen(numbers []*int) {
+	size := len(numbers)
+	numbers = append(numbers, &size)
+}
 
 func main() {
-	arr := []int{0, 1, 2, 3, 4, 5}
+	numbers := make([]*int, 0, 5)
+	var number int
+	for range 3 {
+		number++
+		numbers = append(numbers, &number)
+	}
+	appendLen(numbers)
 
-	bigARR := arr[0:len(arr)]
-	fmt.Println(bigARR)
+	for _, number := range numbers {
+		fmt.Printf("%d ", *number)
+	}
+
+	time.Time{}
 }
