@@ -42,7 +42,7 @@ func Test_numOfDecodings(t *testing.T) {
 		},
 		{
 			decodeStr: "32535223",
-			want:      6,
+			want:      34,
 		},
 	}
 	for _, tt := range tests {

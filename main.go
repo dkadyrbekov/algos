@@ -1,27 +1,25 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
-func appendLen(numbers []*int) {
-	size := len(numbers)
-	numbers = append(numbers, &size)
+func printAny[T any](arr []T) {
+	for _, v := range arr {
+		fmt.Println(v)
+	}
+}
+
+func SumIntsOrFloats[K comparable, V ~int | ~float32](m map[K]V) V {
+	var s V
+	for _, v := range m {
+		s += v
+	}
+	return s
 }
 
 func main() {
-	numbers := make([]*int, 0, 5)
-	var number int
-	for range 3 {
-		number++
-		numbers = append(numbers, &number)
-	}
-	appendLen(numbers)
+	printAny([]int{1, 2, 3, 4, 5})
+	printAny([]string{"123", "123", "123"})
 
-	for _, number := range numbers {
-		fmt.Printf("%d ", *number)
-	}
-
-	time.Time{}
+	m := make(map[int]float32)
+	SumIntsOrFloats(m)
 }
