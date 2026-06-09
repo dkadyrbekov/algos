@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 type DAG struct {
 	edges map[rune][]rune
 }
@@ -14,7 +10,7 @@ func NewDAG(dependencies [][]rune) DAG {
 	}
 
 	for _, dp := range dependencies {
-		dag.AddEdge(dp[0], dp[1])
+		dag.AddEdge(dp[1], dp[0])
 	}
 
 	return dag
@@ -31,19 +27,19 @@ func (d *DAG) AddEdge(from, to rune) {
 	d.edges[from] = append(d.edges[from], to)
 }
 
-type Stack struct {
-	q []rune
+type Stack[T any] struct {
+	q []T
 }
 
-func NewStack() Stack {
-	return Stack{}
+func NewStack[T any]() Stack[T] {
+	return Stack[T]{}
 }
 
-func (q *Stack) Push(r rune) {
+func (q *Stack[T]) Push(r T) {
 	q.q = append(q.q, r)
 }
 
-func (q *Stack) Pop() rune {
+func (q *Stack[T]) Pop() T {
 	res := q.q[len(q.q)-1]
 
 	q.q = q.q[:len(q.q)-1]
@@ -51,7 +47,7 @@ func (q *Stack) Pop() rune {
 	return res
 }
 
-func (q *Stack) IsEmpty() bool {
+func (q *Stack[T]) IsEmpty() bool {
 	return len(q.q) == 0
 }
 
@@ -76,7 +72,7 @@ func findOrder(dependencies [][]rune) []rune {
 		}
 	}
 
-	stack := NewStack()
+	stack := NewStack[rune]()
 
 	for node := range dag.edges {
 		if inDegree[node] == 0 {
@@ -104,22 +100,22 @@ func findOrder(dependencies [][]rune) []rune {
 	return reverseArr(order)
 }
 
-func main() {
-	testCases := [][][]rune{
-		{},
-		{
-			{'C', 'A'},
-		},
-		{
-			{'C', 'A'},
-			{'B', 'A'},
-			{'D', 'C'},
-			{'E', 'B'},
-			{'E', 'D'},
-		},
-	}
-
-	for _, tc := range testCases {
-		fmt.Printf("tc := %v\nresult = %v\n", tc, findOrder(tc))
-	}
-}
+//func main() {
+//	testCases := [][][]rune{
+//		{},
+//		{
+//			{'C', 'A'},
+//		},
+//		{
+//			{'C', 'A'},
+//			{'B', 'A'},
+//			{'D', 'C'},
+//			{'E', 'B'},
+//			{'E', 'D'},
+//		},
+//	}
+//
+//	for _, tc := range testCases {
+//		fmt.Printf("tc := %v\nresult = %v\n", tc, findOrder(tc))
+//	}
+//}
